@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_journey"
+            android:icon="@drawable/car_96"
+            android:title="Kelionė" />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/clock_96"
+            android:title="Kelionių istorija" />
+        <item
+            android:id="@+id/nav_payments"
+            android:icon="@drawable/wallet_96_orange"
+            android:title="Apmokėjimai" />
+        <item
+            android:id="@+id/nav_periodic_journey"
+            android:icon="@drawable/property_time_96"
+            android:title="Periodiškas iškvietimas" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/info_96"
+            android:title="Pagalba" />
+    </group>
+
+    <item android:title="Paskyra">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/user_96"
+                android:title="Profilis" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/key_96"
+                android:title="Atsijungti" />
+        </menu>
+    </item>
+
+</menu>

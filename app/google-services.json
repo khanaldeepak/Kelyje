@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "271563308940",
+    "firebase_url": "https://pavezkprasau.firebaseio.com",
+    "project_id": "pavezkprasau",
+    "storage_bucket": "pavezkprasau.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271563308940:android:78a245e63fbfd053",
+        "android_client_info": {
+          "package_name": "lt.laboratorinis.psi.kelyje"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271563308940-33kqqks9780csjlc42ud24jgtsbeqr63.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lt.laboratorinis.psi.kelyje",
+            "certificate_hash": "bd90f5ac789a633510c024760032088ad8365165"
+          }
+        },
+        {
+          "client_id": "271563308940-si6592iohv0bmuloaa46reo8n5f434a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA57S0nNFPcT-C2JM_J2JYWfNFk14Mi8e8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271563308940-si6592iohv0bmuloaa46reo8n5f434a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

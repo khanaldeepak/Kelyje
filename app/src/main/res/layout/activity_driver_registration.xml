@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/primary_light"
+    android:orientation="vertical"
+    tools:context=".authentication.registration.DriverRegistrationActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:text="Vairuotojo registracija"
+        android:textAlignment="center"
+        android:textColor="@color/primary_text"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/editMark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Automobilio markė"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/editPlate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Automobilio numeris"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editYears"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Automobilio metai"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnFinishRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/holo_blue_dark"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
+        android:text="Užbaigti registraciją"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

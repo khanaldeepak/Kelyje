@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/primary_light"
+    tools:context="lt.laboratorinis.psi.kelyje.authentication.registration.RegistrationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp"
+            android:text="Registracija"
+            android:textAlignment="center"
+            android:textColor="@color/primary_text"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                android:layout_weight="3"
+                android:background="@color/divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="Registracija soc. tinklu"
+                android:textColor="@color/secondary_text"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                android:layout_weight="3"
+                android:background="@color/divider" />
+
+        </LinearLayout>
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/facebookBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+        </com.google.android.gms.common.SignInButton>
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:layout_marginStart="20dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/btnFacebook"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@null"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--app:srcCompat="@drawable/facebook_512"-->
+                <!--android:onClick="onClick"/>-->
+
+            <!--<ImageButton-->
+                <!--android:id="@+id/btnGoogle"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@null"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--app:srcCompat="@drawable/google_plus_512"-->
+                <!--android:onClick="onClick"/>-->
+
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                android:layout_weight="3"
+                android:background="@color/divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="Arba el. paštu"
+                android:textColor="@color/secondary_text"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="5dp"
+                android:layout_weight="3"
+                android:background="@color/divider" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="El. pašto adresas"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/secondary_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Vardas"
+                android:inputType="textPersonName"
+                android:textColorHint="@color/secondary_text" />
+
+            <EditText
+                android:id="@+id/editSurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Pavardė"
+                android:inputType="textPersonName"
+                android:textColorHint="@color/secondary_text" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:ems="10"
+            android:hint="Tel. numeris"
+            android:inputType="phone"
+            android:textColorHint="@color/secondary_text" />
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Slaptažodis"
+            android:inputType="textPassword"
+            android:textColorHint="@color/secondary_text" />
+
+        <EditText
+            android:id="@+id/editPassword2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Slaptažodis (pakartokite)"
+            android:inputType="textPassword"
+            android:textColorHint="@color/secondary_text" />
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:layout_marginStart="20dp">-->
+
+            <!--<CheckBox-->
+                <!--android:id="@+id/checkPassenger"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:checked="true"-->
+                <!--android:text="Keleivis"-->
+                <!--android:textColor="@color/primary_text"-->
+                <!--android:textSize="16sp"-->
+                <!--android:onClick="onClick" />-->
+
+            <!--<CheckBox-->
+                <!--android:id="@+id/checkDriver"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginStart="10dp"-->
+                <!--android:text="Vairuotojas"-->
+                <!--android:textColor="@color/primary_text"-->
+                <!--android:textSize="16sp"-->
+                <!--android:onClick="onClick"/>-->
+        <!--</LinearLayout>-->
+
+        <CheckBox
+            android:id="@+id/checkDriver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:onClick="onClick"
+            android:text="Vairuotojas"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp" />
+
+<!--<Button-->
+            <!--android:id="@+id/button8"-->
+            <!--android:layout_width="150dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@android:color/holo_blue_dark"-->
+            <!--android:text="Registruotis"-->
+            <!--android:textColor="@android:color/white" />-->
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/accent"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:text="Registruotis"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:onClick="onClick" />
+
+    </LinearLayout>
+
+</ScrollView>
