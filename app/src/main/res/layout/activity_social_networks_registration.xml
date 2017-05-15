@@ -5,65 +5,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/primary_light"
     android:orientation="vertical"
-    tools:context=".authentication.registration.DriverRegistrationActivity">
+    tools:context=".authentication.registration.SocialNetworksRegistrationActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:paddingTop="20dp"
-        android:text="Vairuotojo registracija"
+        android:text="Registracija su soc. tinklu"
         android:textAlignment="center"
         android:textColor="@color/primary_text"
         android:textSize="30sp" />
 
-    <EditText
-        android:id="@+id/editMark"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Automobilio markė"
-        android:inputType="text" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Vardas"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/secondary_text" />
+
+        <EditText
+            android:id="@+id/editSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Pavardė"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/secondary_text" />
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/editPlate"
+        android:id="@+id/editPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Automobilio numeris"
-        android:inputType="text"
-        android:singleLine="true"
-        android:textAllCaps="true" />
+        android:hint="Tel. numeris"
+        android:inputType="phone"
+        android:textColorHint="@color/secondary_text" />
 
-    <EditText
-        android:id="@+id/editYears"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/checkDriver"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Automobilio metai"
-        android:inputType="number"
-        android:maxLength="4" />
+        android:onClick="onClick"
+        android:text="Vairuotojas"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp" />
 
     <Button
-        android:id="@+id/btnFinishRegistration"
+        android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="20dp"
         android:background="@color/accent"
+        android:onClick="onClick"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="Užbaigti registraciją"
+        android:text="Registruotis"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 

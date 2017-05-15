@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,10 +32,16 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import lt.laboratorinis.psi.kelyje.MainActivity;
 import lt.laboratorinis.psi.kelyje.R;
 import lt.laboratorinis.psi.kelyje.authentication.registration.RegistrationActivity;
+import lt.laboratorinis.psi.kelyje.authentication.registration.SocialNetworksRegistrationActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -133,6 +140,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginSuccessful(FirebaseUser user) {
         Toast.makeText(LoginActivity.this, "Welcome, " + user.getEmail(), Toast.LENGTH_LONG).show();
         finish();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("users");
+
+        String id = user.getUid();
+        myRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    //user exists in database
+                } else {
+                    Intent intent = new Intent(LoginActivity.this, SocialNetworksRegistrationActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+            }
+        });
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);

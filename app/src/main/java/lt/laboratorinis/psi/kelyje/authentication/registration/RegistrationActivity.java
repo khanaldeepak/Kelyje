@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,13 +17,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import lt.laboratorinis.psi.kelyje.R;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private LoginButton mFacebookButton;
-    private SignInButton mGoogleButton;
     private EditText email;
     private EditText name;
     private EditText surname;
@@ -34,14 +34,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private CheckBox driver;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        //facebook = (ImageButton) findViewById(R.id.btnFacebook);
-        //google = (ImageButton) findViewById(R.id.btnGoogle);
+        firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+
         email = (EditText) findViewById(R.id.editEmail);
         name = (EditText) findViewById(R.id.editName);
         surname = (EditText) findViewById(R.id.editSurname);
@@ -49,8 +53,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         password = (EditText) findViewById(R.id.editPassword);
         password2 = (EditText) findViewById(R.id.editPassword2);
         driver = (CheckBox) findViewById(R.id.checkDriver);
-
-        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -58,31 +60,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         int id = view.getId();
 
         switch (id) {
-            /*case R.id.btnFacebook:
-                facebookRegistration();
-                break;
-            case R.id.btnGoogle:
-                googleRegistration();
-                break;*/
             case R.id.btnRegister:
                 registration();
                 break;
         }
     }
 
-    private void facebookRegistration() {
-        // ToDo
-    }
-
-    private void googleRegistration() {
-        // ToDo
-    }
-
     private void registration() {
         final String emailInput = email.getText().toString().trim();
-        String nameInput = name.getText().toString().trim();
-        String surnameInput = surname.getText().toString().trim();
-        String phoneInput = phone.getText().toString().trim();
+        final String nameInput = name.getText().toString().trim();
+        final String surnameInput = surname.getText().toString().trim();
+        final String phoneInput = phone.getText().toString().trim();
         final String passwordInput = password.getText().toString().trim();
         final String password2Input = password2.getText().toString().trim();
         boolean driverOption = driver.isChecked();
@@ -133,6 +121,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             intent.putExtra("surname", surnameInput);
             intent.putExtra("phone", phoneInput);
             intent.putExtra("password", passwordInput);
+            intent.putExtra("socialNetwork", false);
             startActivity(intent);
         } else {
             //finish registration
@@ -149,6 +138,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             if (task.isSuccessful()) {
                                 Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
 
+                                FirebaseUser user = task.getResult().getUser();
+                                String id = user.getUid();
+                                writeNewUser(myRef, id, nameInput, surnameInput, phoneInput);
+
                                 finish();
                             } else {
                                 Toast.makeText(RegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
@@ -157,5 +150,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         }
                     });
         }
+    }
+
+    private void writeNewUser(DatabaseReference databaseReference, String id,
+                              String name, String surname, String phone) {
+
+        databaseReference.child(id).child("name").setValue(name);
+        databaseReference.child(id).child("surname").setValue(surname);
+        databaseReference.child(id).child("phone").setValue(phone);
     }
 }

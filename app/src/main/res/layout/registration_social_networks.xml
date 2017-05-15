@@ -8,39 +8,40 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:paddingTop="20dp"
-        android:text="PavežkPrašau"
+        android:text="Registracija su soc. tinklu"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textColor="@color/primary_text"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="6">
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal">
 
-        <View
-            android:layout_width="50dp"
-            android:layout_height="5dp"
-            android:layout_weight="3"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
+        <EditText
+            android:id="@+id/editName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Vardas"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/secondary_text" />
+
+        <EditText
+            android:id="@+id/editSurname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Registracija"
-            android:textSize="18sp" />
-
-        <View
-            android:layout_width="50dp"
-            android:layout_height="5dp"
-            android:layout_weight="3"
-            android:background="@android:color/darker_gray" />
-
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Pavardė"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/secondary_text" />
     </LinearLayout>
 
     <EditText
@@ -49,54 +50,21 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Tel. numeris"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:textColorHint="@color/secondary_text" />
 
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/checkDriver"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Slaptažodis"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/editPassword2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Slaptažodis (pakartokite)"
-        android:inputType="textPassword" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp">
-
-        <CheckBox
-            android:id="@+id/checkPassenger"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Keleivis" />
-
-        <CheckBox
-            android:id="@+id/checkDriver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Vairuotojas" />
-    </LinearLayout>
+        android:onClick="onClick"
+        android:text="Vairuotojas"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btnRegister"
