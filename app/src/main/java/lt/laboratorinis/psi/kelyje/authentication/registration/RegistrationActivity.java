@@ -11,8 +11,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,7 +19,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import lt.laboratorinis.psi.kelyje.MainActivity;
 import lt.laboratorinis.psi.kelyje.R;
+import lt.laboratorinis.psi.kelyje.users.Passenger;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -82,6 +85,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
+        if (!isEmailValid(emailInput)) {
+            Toast.makeText(this, "Please enter valid email!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (TextUtils.isEmpty(nameInput)) {
             Toast.makeText(this, "Please enter name!", Toast.LENGTH_LONG).show();
             return;
@@ -107,6 +115,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             return;
         }
 
+        if (passwordInput.length() < 6) {
+            Toast.makeText(this, "Password should consist of at least 6 characters", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (!passwordInput.equals(password2Input)) {
             Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_LONG).show();
             return;
@@ -114,7 +127,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         if (driverOption) {
             //add driver details
-
             Intent intent = new Intent(RegistrationActivity.this, DriverRegistrationActivity.class);
             intent.putExtra("email", emailInput);
             intent.putExtra("name", nameInput);
@@ -125,7 +137,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             startActivity(intent);
         } else {
             //finish registration
-
             dialog.setMessage("Registering. Please Wait...");
             dialog.show();
 
@@ -143,6 +154,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 writeNewUser(myRef, id, nameInput, surnameInput, phoneInput);
 
                                 finish();
+
+                                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(RegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
                             }
@@ -152,11 +166,29 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void writeNewUser(DatabaseReference databaseReference, String id,
-                              String name, String surname, String phone) {
+    public boolean isEmailValid(String email)
+    {
+        String regExpn =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
 
-        databaseReference.child(id).child("name").setValue(name);
-        databaseReference.child(id).child("surname").setValue(surname);
-        databaseReference.child(id).child("phone").setValue(phone);
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
+    }
+
+    private void writeNewUser(DatabaseReference databaseReference, String id, String name, String surname, String phone) {
+        Passenger user = new Passenger(name, surname, phone);
+        databaseReference.child(id).setValue(user);
     }
 }

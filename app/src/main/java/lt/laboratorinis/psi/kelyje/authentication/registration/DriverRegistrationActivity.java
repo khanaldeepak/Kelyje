@@ -1,6 +1,7 @@
 package lt.laboratorinis.psi.kelyje.authentication.registration;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +20,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+
+import lt.laboratorinis.psi.kelyje.MainActivity;
 import lt.laboratorinis.psi.kelyje.R;
+import lt.laboratorinis.psi.kelyje.users.Driver;
 
 public class DriverRegistrationActivity extends AppCompatActivity {
 
@@ -74,6 +79,13 @@ public class DriverRegistrationActivity extends AppCompatActivity {
             return;
         }
 
+        int years = Integer.parseInt(yearsInput);
+        int currentYears = Calendar.getInstance().get(Calendar.YEAR);
+        if (years < currentYears - 50  || years > currentYears) {
+            Toast.makeText(this, "Please enter valid years! (" + (currentYears - 50) + " - " + currentYears + ")", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Bundle bundle = getIntent().getExtras();
         if (bundle!= null) {
             String emailInput = bundle.getString("email", null);
@@ -84,7 +96,7 @@ public class DriverRegistrationActivity extends AppCompatActivity {
             boolean sn = bundle.getBoolean("socialNetwork");
 
             if (!sn) {
-                // traditional (username & password) registration
+                // traditional driver (username & password) registration
                 final ProgressDialog dialog = new ProgressDialog(this);
                 dialog.setMessage("Registering. Please Wait...");
                 dialog.show();
@@ -103,6 +115,9 @@ public class DriverRegistrationActivity extends AppCompatActivity {
                                     writeNewDriver(myRef, id, nameInput, surnameInput, phoneInput, markInput, plateInput, yearsInput);
 
                                     finish();
+
+                                    Intent intent = new Intent(DriverRegistrationActivity.this, MainActivity.class);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(DriverRegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
                                 }
@@ -110,13 +125,16 @@ public class DriverRegistrationActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                // social networks registration
+                // social networks driver registration
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     String id = user.getUid();
                     writeNewDriver(myRef, id, nameInput, surnameInput, phoneInput, markInput, plateInput, yearsInput);
 
                     finish();
+
+                    Intent intent = new Intent(DriverRegistrationActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         } else {
@@ -128,11 +146,7 @@ public class DriverRegistrationActivity extends AppCompatActivity {
                               String name, String surname, String phone,
                               String mark, String plate, String years) {
 
-        databaseReference.child(id).child("name").setValue(name);
-        databaseReference.child(id).child("surname").setValue(surname);
-        databaseReference.child(id).child("phone").setValue(phone);
-        databaseReference.child(id).child("mark").setValue(mark);
-        databaseReference.child(id).child("plate").setValue(plate);
-        databaseReference.child(id).child("years").setValue(years);
+        Driver driver = new Driver(name, surname, phone, mark, plate, years);
+        databaseReference.child(id).setValue(driver);
     }
 }

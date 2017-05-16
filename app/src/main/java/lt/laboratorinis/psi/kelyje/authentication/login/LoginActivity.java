@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -69,35 +68,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        email = (EditText) findViewById(R.id.editEmail);
-        password = (EditText) findViewById(R.id.editPassword);
-
-        initiateFacebookLogin();
-        initiateGoogleLogin();
-
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         if (user != null) {
             loginSuccessful(user);
-        }
+        } else {
+            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-                    loginSuccessful(user);
+                    if (user != null) {
+                        loginSuccessful(user);
+                    }
                 }
-            }
-        };
+            };
+
+            email = (EditText) findViewById(R.id.editEmail);
+            password = (EditText) findViewById(R.id.editPassword);
+
+            initiateFacebookLogin();
+            initiateGoogleLogin();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        firebaseAuth.addAuthStateListener(mAuthListener);
+        if (mAuthListener != null) {
+            firebaseAuth.addAuthStateListener(mAuthListener);
+        }
     }
 
     @Override
@@ -137,10 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void loginSuccessful(FirebaseUser user) {
-        Toast.makeText(LoginActivity.this, "Welcome, " + user.getEmail(), Toast.LENGTH_LONG).show();
-        finish();
-
+    private void loginSuccessful(final FirebaseUser user) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
 
@@ -150,6 +148,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     //user exists in database
+                    finish();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(LoginActivity.this, SocialNetworksRegistrationActivity.class);
                     startActivity(intent);
@@ -161,9 +163,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
         });
-
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
     private void loginFailed() {

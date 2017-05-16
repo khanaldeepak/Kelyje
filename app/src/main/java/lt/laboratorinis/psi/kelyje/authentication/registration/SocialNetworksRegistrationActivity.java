@@ -14,12 +14,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import lt.laboratorinis.psi.kelyje.MainActivity;
 import lt.laboratorinis.psi.kelyje.R;
+import lt.laboratorinis.psi.kelyje.users.Passenger;
 
 public class SocialNetworksRegistrationActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText name;
-    private EditText surname;
     private EditText phone;
     private CheckBox driver;
 
@@ -36,8 +36,6 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");
 
-        name = (EditText) findViewById(R.id.editName);
-        surname = (EditText) findViewById(R.id.editSurname);
         phone = (EditText) findViewById(R.id.editPhone);
         driver = (CheckBox) findViewById(R.id.checkDriver);
     }
@@ -54,20 +52,8 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
     }
 
     private void registration() {
-        final String nameInput = name.getText().toString().trim();
-        final String surnameInput = surname.getText().toString().trim();
         final String phoneInput = phone.getText().toString().trim();
         boolean driverOption = driver.isChecked();
-
-        if (TextUtils.isEmpty(nameInput)) {
-            Toast.makeText(this, "Please enter name!", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(surnameInput)) {
-            Toast.makeText(this, "Please enter surname!", Toast.LENGTH_LONG).show();
-            return;
-        }
 
         if (TextUtils.isEmpty(phoneInput)) {
             Toast.makeText(this, "Please enter phone!", Toast.LENGTH_LONG).show();
@@ -77,8 +63,6 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
         if (driverOption) {
             //add driver details
             Intent intent = new Intent(SocialNetworksRegistrationActivity.this, DriverRegistrationActivity.class);
-            intent.putExtra("name", nameInput);
-            intent.putExtra("surname", surnameInput);
             intent.putExtra("phone", phoneInput);
             intent.putExtra("socialNetwork", true);
             startActivity(intent);
@@ -89,19 +73,19 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 String id = user.getUid();
-                writeNewUser(myRef, id, nameInput, surnameInput, phoneInput);
+                writeNewUser(myRef, id, phoneInput);
             }
 
             finish();
+
+            Intent intent = new Intent(SocialNetworksRegistrationActivity.this, MainActivity.class);
+            startActivity(intent);
         }
 
     }
 
-    private void writeNewUser(DatabaseReference databaseReference, String id,
-                              String name, String surname, String phone) {
-
-        databaseReference.child(id).child("name").setValue(name);
-        databaseReference.child(id).child("surname").setValue(surname);
-        databaseReference.child(id).child("phone").setValue(phone);
+    private void writeNewUser(DatabaseReference databaseReference, String id, String phone) {
+        Passenger user = new Passenger(phone);
+        databaseReference.child(id).setValue(user);
     }
 }

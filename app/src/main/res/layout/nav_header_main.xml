@@ -18,29 +18,29 @@
         android:layout_marginStart="24dp" />
 
     <TextView
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="user@gmail.com"
-        android:textSize="14sp"
-        android:textColor="#FFF"
-        android:textStyle="bold"
+        android:layout_above="@+id/phone"
+        android:layout_alignStart="@+id/phone"
         android:gravity="start"
         android:paddingBottom="4dp"
-        android:id="@+id/email"
-        android:layout_above="@+id/phone"
-        android:layout_alignStart="@+id/phone" />
+        android:text="-"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+370 61234567"
-        android:id="@+id/phone"
-        android:gravity="start"
-        android:layout_marginBottom="8dp"
-        android:textSize="14sp"
-        android:textColor="#fff"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/username" />
+        android:layout_alignStart="@+id/username"
+        android:layout_marginBottom="8dp"
+        android:gravity="start"
+        android:text="-"
+        android:textColor="#fff"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/username"
@@ -49,8 +49,8 @@
         android:layout_above="@+id/image"
         android:layout_alignStart="@+id/image"
         android:layout_marginBottom="11dp"
-        android:text="Tomas Petronis"
-        android:textSize="14sp"
-        android:textColor="#fff"/>
+        android:text="-"
+        android:textColor="#fff"
+        android:textSize="14sp" />
 
 </RelativeLayout>

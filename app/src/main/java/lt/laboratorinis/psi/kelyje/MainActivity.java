@@ -3,10 +3,8 @@ package lt.laboratorinis.psi.kelyje;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,22 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import lt.laboratorinis.psi.kelyje.authentication.login.LoginActivity;
 import lt.laboratorinis.psi.kelyje.fragments.HelpFragment;
@@ -40,6 +33,7 @@ import lt.laboratorinis.psi.kelyje.fragments.JourneysHistoryFragment;
 import lt.laboratorinis.psi.kelyje.fragments.PaymentsFragment;
 import lt.laboratorinis.psi.kelyje.fragments.PeriodicJourneyFragment;
 import lt.laboratorinis.psi.kelyje.fragments.ProfileFragment;
+import lt.laboratorinis.psi.kelyje.users.Passenger;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +47,8 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +57,8 @@ public class MainActivity extends AppCompatActivity
 
         //initializing firebase authentication object
         firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -102,26 +100,32 @@ public class MainActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         //getting current user
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
 
         email = (TextView) header.findViewById(R.id.email);
         email.setText(user.getEmail());
-
-        /*phone = (TextView) header.findViewById(R.id.phone);
-        phone.setText(firebaseAuth.getCurrentUser().get());*/
-
         username = (TextView) header.findViewById(R.id.username);
         username.setText(user.getDisplayName());
+        phone = (TextView) header.findViewById(R.id.phone);
 
-        //Button button = (Button) findViewById(R.id.button);
-        //button.setVisibility(View.INVISIBLE);
-       /* button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setContentView(R.layout.payments);
-            }
-        });*/
+        myRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Passenger passenger = dataSnapshot.getValue(Passenger.class);
 
+                        if (user.getDisplayName() == null) {
+                            username.setText(passenger.getName() + " " + passenger.getSurname());
+                        }
+                        Toast.makeText(MainActivity.this, "Welcome, " + username.getText().toString().trim(), Toast.LENGTH_LONG).show();
+
+                        phone.setText(passenger.getPhone());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override

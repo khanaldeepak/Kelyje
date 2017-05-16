@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primary_light"
     tools:context="lt.laboratorinis.psi.kelyje.authentication.registration.RegistrationActivity">
 
@@ -21,37 +20,6 @@
             android:textAlignment="center"
             android:textColor="@color/primary_text"
             android:textSize="30sp" />
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="20dp"-->
-            <!--android:layout_marginStart="20dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/btnFacebook"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@null"-->
-                <!--android:scaleType="fitCenter"-->
-                <!--app:srcCompat="@drawable/facebook_512"-->
-                <!--android:onClick="onClick"/>-->
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/btnGoogle"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@null"-->
-                <!--android:scaleType="fitCenter"-->
-                <!--app:srcCompat="@drawable/google_plus_512"-->
-                <!--android:onClick="onClick"/>-->
-
-        <!--</LinearLayout>-->
 
         <EditText
             android:id="@+id/editEmail"
@@ -129,33 +97,6 @@
             android:inputType="textPassword"
             android:textColorHint="@color/secondary_text" />
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="20dp"-->
-            <!--android:layout_marginStart="20dp">-->
-
-            <!--<CheckBox-->
-                <!--android:id="@+id/checkPassenger"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:checked="true"-->
-                <!--android:text="Keleivis"-->
-                <!--android:textColor="@color/primary_text"-->
-                <!--android:textSize="16sp"-->
-                <!--android:onClick="onClick" />-->
-
-            <!--<CheckBox-->
-                <!--android:id="@+id/checkDriver"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="10dp"-->
-                <!--android:text="Vairuotojas"-->
-                <!--android:textColor="@color/primary_text"-->
-                <!--android:textSize="16sp"-->
-                <!--android:onClick="onClick"/>-->
-        <!--</LinearLayout>-->
-
         <CheckBox
             android:id="@+id/checkDriver"
             android:layout_width="wrap_content"
@@ -166,17 +107,6 @@
             android:text="Vairuotojas"
             android:textColor="@color/primary_text"
             android:textSize="16sp" />
-
-<!--<Button-->
-            <!--android:id="@+id/button8"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginBottom="20dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:background="@android:color/holo_blue_dark"-->
-            <!--android:text="Registruotis"-->
-            <!--android:textColor="@android:color/white" />-->
 
         <Button
             android:id="@+id/btnRegister"
