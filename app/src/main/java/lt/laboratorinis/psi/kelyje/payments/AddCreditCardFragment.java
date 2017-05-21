@@ -1,5 +1,4 @@
-package lt.laboratorinis.psi.kelyje.fragments;
-
+package lt.laboratorinis.psi.kelyje.payments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,22 +8,16 @@ import android.view.ViewGroup;
 
 import lt.laboratorinis.psi.kelyje.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class PaymentsFragment extends Fragment {
+public class AddCreditCardFragment extends Fragment {
 
-
-    public PaymentsFragment() {
+    public AddCreditCardFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payments, container, false);
+        return inflater.inflate(R.layout.fragment_add_credit_card, container, false);
     }
-
 }

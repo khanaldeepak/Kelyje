@@ -1,4 +1,4 @@
-package lt.laboratorinis.psi.kelyje.fragments;
+package lt.laboratorinis.psi.kelyje.periodicjourney;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -6,34 +6,46 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import lt.laboratorinis.psi.kelyje.R;
 
-public class JourneyFragment extends Fragment {
+public class PeriodicJourneyPathFragment extends Fragment {
 
     private MapView mMapView;
     private GoogleMap googleMap;
 
     private static final int LOCATION_REQUEST_CODE = 101;
-    private String TAG = "MapDemo";
 
-    public JourneyFragment() {
+    private EditText source;
+    private EditText destination;
+    private Button savePeriodicJourney;
+
+    private View mView;
+
+    public PeriodicJourneyPathFragment() {
         // Required empty public constructor
     }
 
@@ -41,12 +53,49 @@ public class JourneyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_journey, container, false);
+        mView = inflater.inflate(R.layout.fragment_periodic_journey_path, container, false);
 
+        source = (EditText) mView.findViewById(R.id.editSource);
+        destination = (EditText) mView.findViewById(R.id.editDestination);
+
+        final Bundle bundle = this.getArguments();
+
+        initializeMaps(savedInstanceState);
+
+        savePeriodicJourney = (Button) mView.findViewById(R.id.btnSave);
+        savePeriodicJourney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean[] days = bundle.getBooleanArray("weekdays");
+                int hour = bundle.getInt("hour");
+                int minute = bundle.getInt("minute");
+                boolean traditional = bundle.getBoolean("traditional");
+                boolean selfDriving = bundle.getBoolean("selfDriving");
+                boolean packet = bundle.getBoolean("packet");
+
+                String sourceInput = source.getText().toString().trim();
+                String destinationInput = destination.getText().toString().trim();
+
+                if (checkAddresses(sourceInput, destinationInput)) {
+                    PeriodicJourney journey = new PeriodicJourney(days, hour, minute, traditional, selfDriving, packet, sourceInput, destinationInput);
+                    saveJourney(journey);
+                    Toast.makeText(getActivity().getApplicationContext(), "Saved!", Toast.LENGTH_LONG).show();
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentContainer, new PeriodicJourneyFragment());
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
+        return mView;
+    }
+
+    private void initializeMaps(Bundle savedInstanceState){
         // ask for permission
         requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE);
 
-        mMapView = (MapView) rootView.findViewById(R.id.mapView);
+        mMapView = (MapView) mView.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
         mMapView.onResume(); // needed to get the map to display immediately
@@ -79,9 +128,9 @@ public class JourneyFragment extends Fragment {
 
                 LatLng MUSEUM = new LatLng(38.8874245, -77.0200729);
                 Marker museum = googleMap.addMarker(new MarkerOptions()
-                                    .position(MUSEUM)
-                                    .title("Museum")
-                                    .snippet("National Air and Space Museum"));
+                        .position(MUSEUM)
+                        .title("Museum")
+                        .snippet("National Air and Space Museum"));
 
                 // For dropping a marker at a point on the Map
                 /*LatLng sydney = new LatLng(-34, 151);
@@ -92,8 +141,6 @@ public class JourneyFragment extends Fragment {
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
             }
         });
-
-        return rootView;
     }
 
     protected void requestPermission(String permissionType, int requestCode){
@@ -113,8 +160,35 @@ public class JourneyFragment extends Fragment {
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getContext(), "Unable to show location - permission required", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
+        }
+    }
+
+    private boolean checkAddresses(String source, String destination) {
+        if (TextUtils.isEmpty(source)) {
+            Toast.makeText(getActivity().getApplicationContext(), "Please enter source address!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(destination)) {
+            Toast.makeText(getActivity().getApplicationContext(), "Please enter destination address!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        // TODO: 2017-05-21 additional validation of addresses
+
+        return true;
+    }
+
+    private void saveJourney(PeriodicJourney journey) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            String id = user.getUid();
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users").child(id).child("periodic");
+
+            String key = myRef.push().getKey();
+            myRef.child(key).setValue(journey);
         }
     }
 

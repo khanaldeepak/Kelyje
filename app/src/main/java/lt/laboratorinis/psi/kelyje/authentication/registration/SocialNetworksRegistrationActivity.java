@@ -48,6 +48,8 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
             case R.id.btnRegister:
                 registration();
                 break;
+            default:
+                break;
         }
     }
 

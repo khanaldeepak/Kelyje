@@ -66,6 +66,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             case R.id.btnRegister:
                 registration();
                 break;
+            default:
+                break;
         }
     }
 
@@ -77,8 +79,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         final String passwordInput = password.getText().toString().trim();
         final String password2Input = password2.getText().toString().trim();
         boolean driverOption = driver.isChecked();
-
-        final ProgressDialog dialog = new ProgressDialog(this);
 
         if (TextUtils.isEmpty(emailInput)) {
             Toast.makeText(this, "Please enter email!", Toast.LENGTH_LONG).show();
@@ -137,6 +137,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             startActivity(intent);
         } else {
             //finish registration
+            final ProgressDialog dialog = new ProgressDialog(this);
             dialog.setMessage("Registering. Please Wait...");
             dialog.show();
 

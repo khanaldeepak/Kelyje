@@ -30,8 +30,8 @@ import lt.laboratorinis.psi.kelyje.authentication.login.LoginActivity;
 import lt.laboratorinis.psi.kelyje.fragments.HelpFragment;
 import lt.laboratorinis.psi.kelyje.fragments.JourneyFragment;
 import lt.laboratorinis.psi.kelyje.fragments.JourneysHistoryFragment;
-import lt.laboratorinis.psi.kelyje.fragments.PaymentsFragment;
-import lt.laboratorinis.psi.kelyje.fragments.PeriodicJourneyFragment;
+import lt.laboratorinis.psi.kelyje.payments.PaymentsFragment;
+import lt.laboratorinis.psi.kelyje.periodicjourney.PeriodicJourneyFragment;
 import lt.laboratorinis.psi.kelyje.fragments.ProfileFragment;
 import lt.laboratorinis.psi.kelyje.users.Passenger;
 

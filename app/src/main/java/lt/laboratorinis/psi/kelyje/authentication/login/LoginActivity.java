@@ -61,6 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.textForgotPassword:
                 forgotPassword();
                 break;
+            default:
+                break;
         }
     }
 
@@ -139,6 +143,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loginSuccessful(final FirebaseUser user) {
+        progressDialog = null;
+
+        if(!LoginActivity.this.isFinishing()) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
+        }
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
 
@@ -152,9 +164,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
                 } else {
+                    finish();
+
                     Intent intent = new Intent(LoginActivity.this, SocialNetworksRegistrationActivity.class);
                     startActivity(intent);
+
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
                 }
             }
 
