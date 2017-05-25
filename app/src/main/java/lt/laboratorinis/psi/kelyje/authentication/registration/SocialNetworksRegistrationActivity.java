@@ -58,7 +58,8 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
         boolean driverOption = driver.isChecked();
 
         if (TextUtils.isEmpty(phoneInput)) {
-            Toast.makeText(this, "Please enter phone!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter phone!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite tel. numerį!", Toast.LENGTH_LONG).show();
             return;
         }
 

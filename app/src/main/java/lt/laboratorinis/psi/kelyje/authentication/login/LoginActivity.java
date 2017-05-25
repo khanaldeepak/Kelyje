@@ -147,7 +147,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(!LoginActivity.this.isFinishing()) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Please wait...");
+            //progressDialog.setMessage("Please wait...");
+            progressDialog.setMessage("Jungiamasi...");
             progressDialog.show();
         }
 
@@ -188,7 +189,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loginFailed() {
-        Toast.makeText(LoginActivity.this, "Sign-in failed!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(LoginActivity.this, "Sign-in failed!", Toast.LENGTH_LONG).show();
+        Toast.makeText(LoginActivity.this, "Klaida bandant prisijungti!", Toast.LENGTH_LONG).show();
     }
 
     private void initiateFacebookLogin() {
@@ -206,7 +208,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onCancel() {
-                Toast.makeText(LoginActivity.this, "Canceled!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "Canceled!", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Atšaukta!", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -284,17 +287,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String passwordInput = password.getText().toString().trim();
 
         if (TextUtils.isEmpty(emailInput)) {
-            Toast.makeText(this, "Please enter email!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Please enter email!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Pirma įveskite el. paštą!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(passwordInput)) {
-            Toast.makeText(this, "Please enter password!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Please enter password!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite slaptažodį!", Toast.LENGTH_LONG).show();
             return;
         }
 
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Connecting. Please wait...");
+        //dialog.setMessage("Connecting. Please wait...");
+        dialog.setMessage("Jugiamasi...");
         dialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(emailInput, passwordInput)
@@ -304,7 +310,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 dialog.dismiss();
 
                 if (!task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Incorrect username or password!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, "Incorrect username or password!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Blogai įvestas el. paštas arba slaptažodis!", Toast.LENGTH_LONG).show();
                 }
             }
         });

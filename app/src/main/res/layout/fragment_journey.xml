@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_light"
     android:orientation="vertical"
-    tools:context="lt.laboratorinis.psi.kelyje.fragments.JourneyFragment">
+    tools:context="lt.laboratorinis.psi.kelyje.journey.JourneyFragment">
 
     <EditText
         android:id="@+id/editDestination"
@@ -40,9 +40,10 @@
         android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:paddingTop="10dp"
-        android:textColorHint="@color/secondary_text" />
+        android:textColorHint="@color/secondary_text"
+        android:enabled="false"/>
 
-    <RadioButton
+    <CheckBox
         android:id="@+id/radioGPS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,8 +77,9 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:ems="2"
+            android:gravity="center"
             android:inputType="number"
-            android:text="07"
+            android:maxLength="2"
             android:textColor="@color/secondary_text"
             android:textColorHint="@color/secondary_text" />
 
@@ -85,8 +87,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:paddingStart="3dp"
             android:text="val"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/primary_text"
+            android:maxLines="1"/>
 
         <EditText
             android:id="@+id/editMins"
@@ -94,28 +98,21 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:ems="2"
+            android:gravity="center"
             android:inputType="number"
-            android:text="20"
+            android:maxLength="2"
             android:textColor="@color/secondary_text"
             android:textColorHint="@color/secondary_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
             android:text="min"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/primary_text"
+            android:maxLines="1"/>
     </LinearLayout>
-
-    <!--<Button-->
-    <!--android:id="@+id/btnStart"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginBottom="10dp"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:paddingEnd="20dp"-->
-    <!--android:paddingStart="20dp"-->
-    <!--android:text="Pradėti kelionę" />-->
 
     <Button
         android:id="@+id/btnStart"
@@ -177,7 +174,7 @@
                     android:textColor="@android:color/white" />
 
                 <CheckBox
-                    android:id="@+id/checkPackage"
+                    android:id="@+id/checkPacket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

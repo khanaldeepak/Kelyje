@@ -115,11 +115,13 @@ public class PeriodicJourneysAdapter extends BaseAdapter {
                 final PeriodicJourney journey = journeys.get(position);
 
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                alertDialog.setTitle("Periodic journey");
+                //alertDialog.setTitle("Periodic journey");
+                alertDialog.setTitle("Periodiškas iškvietimas");
                 alertDialog.setIcon(journey.isActive() ? R.drawable.ok_512 : R.drawable.cancel_512);
                 alertDialog.setMessage(holder.path.getText().toString().trim());
 
-                alertDialog.setPositiveButton("Close",
+                String positiveText = "Uždaryti"; //Close
+                alertDialog.setPositiveButton(positiveText,
                         new DialogInterface.OnClickListener()
                         {
                             public void onClick(DialogInterface dialog, int id)
@@ -128,7 +130,8 @@ public class PeriodicJourneysAdapter extends BaseAdapter {
                             }
                         });
 
-                String activeText = journey.isActive() ? "Make inactive" : "Activate";
+                //String activeText = journey.isActive() ? "Make inactive" : "Activate";
+                String activeText = journey.isActive() ? "Deaktyvuoti" : "Aktyvuoti";
 
                 alertDialog.setNeutralButton(activeText,
                         new DialogInterface.OnClickListener()
@@ -148,7 +151,8 @@ public class PeriodicJourneysAdapter extends BaseAdapter {
                             }
                         });
 
-                alertDialog.setNegativeButton("Delete",
+                String negativeText = "Ištrinti"; //Delete
+                alertDialog.setNegativeButton(negativeText,
                         new DialogInterface.OnClickListener()
                         {
                             public void onClick(DialogInterface dialog, int id)

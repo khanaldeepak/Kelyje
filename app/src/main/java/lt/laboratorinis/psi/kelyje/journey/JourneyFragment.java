@@ -1,7 +1,11 @@
-package lt.laboratorinis.psi.kelyje.periodicjourney;
+package lt.laboratorinis.psi.kelyje.journey;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -9,43 +13,51 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import lt.laboratorinis.psi.kelyje.R;
+import lt.laboratorinis.psi.kelyje.payments.DefaultPaymentFragment;
 
-public class PeriodicJourneyPathFragment extends Fragment {
+public class JourneyFragment extends Fragment {
+
+    private EditText source;
+    private EditText destination;
+    private CheckBox gps;
+    private EditText hours;
+    private EditText mins;
+    private Button start;
+    private CheckBox traditional;
+    private CheckBox selfDriving;
+    private CheckBox packet;
 
     private MapView mMapView;
     private GoogleMap googleMap;
 
     private static final int LOCATION_REQUEST_CODE = 101;
-
-    private EditText source;
-    private EditText destination;
-    private Button savePeriodicJourney;
+    private String TAG = "MapDemo";
 
     private View mView;
 
-    public PeriodicJourneyPathFragment() {
+    public JourneyFragment() {
         // Required empty public constructor
     }
 
@@ -53,46 +65,25 @@ public class PeriodicJourneyPathFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_periodic_journey_path, container, false);
+        mView = inflater.inflate(R.layout.fragment_journey, container, false);
 
         source = (EditText) mView.findViewById(R.id.editSource);
         destination = (EditText) mView.findViewById(R.id.editDestination);
+        gps = (CheckBox) mView.findViewById(R.id.radioGPS);
+        hours = (EditText) mView.findViewById(R.id.editHours);
+        mins = (EditText) mView.findViewById(R.id.editMins);
+        start = (Button) mView.findViewById(R.id.btnStart);
+        traditional = (CheckBox) mView.findViewById(R.id.checkTraditional);
+        selfDriving = (CheckBox) mView.findViewById(R.id.checkSelfDriving);
+        packet = (CheckBox) mView.findViewById(R.id.checkPacket);
 
-        final Bundle bundle = this.getArguments();
-
-        initializeMaps(savedInstanceState);
-
-        savePeriodicJourney = (Button) mView.findViewById(R.id.btnSave);
-        savePeriodicJourney.setOnClickListener(new View.OnClickListener() {
+        gps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                boolean[] days = bundle.getBooleanArray("weekdays");
-                int hour = bundle.getInt("hour");
-                int minute = bundle.getInt("minute");
-                boolean traditional = bundle.getBoolean("traditional");
-                boolean selfDriving = bundle.getBoolean("selfDriving");
-                boolean packet = bundle.getBoolean("packet");
-
-                String sourceInput = source.getText().toString().trim();
-                String destinationInput = destination.getText().toString().trim();
-
-                if (checkAddresses(sourceInput, destinationInput)) {
-                    PeriodicJourney journey = new PeriodicJourney(days, hour, minute, traditional, selfDriving, packet, sourceInput, destinationInput);
-                    saveJourney(journey);
-//                    Toast.makeText(getActivity().getApplicationContext(), "Saved!", Toast.LENGTH_LONG).show();
-                    Toast.makeText(getActivity().getApplicationContext(), "Išsaugota!", Toast.LENGTH_LONG).show();
-
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, new PeriodicJourneyFragment());
-                    fragmentTransaction.commit();
-                }
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                source.setEnabled(!b);
             }
         });
 
-        return mView;
-    }
-
-    private void initializeMaps(Bundle savedInstanceState){
         // ask for permission
         requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE);
 
@@ -127,11 +118,20 @@ public class PeriodicJourneyPathFragment extends Fragment {
                     }
                 }
 
-                LatLng MUSEUM = new LatLng(38.8874245, -77.0200729);
+                showCurrentLocation();
+
+                start.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        validateInput();
+                    }
+                });
+
+                /*LatLng MUSEUM = new LatLng(38.8874245, -77.0200729);
                 Marker museum = googleMap.addMarker(new MarkerOptions()
-                        .position(MUSEUM)
-                        .title("Museum")
-                        .snippet("National Air and Space Museum"));
+                                    .position(MUSEUM)
+                                    .title("Museum")
+                                    .snippet("National Air and Space Museum"));*/
 
                 // For dropping a marker at a point on the Map
                 /*LatLng sydney = new LatLng(-34, 151);
@@ -142,6 +142,8 @@ public class PeriodicJourneyPathFragment extends Fragment {
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
             }
         });
+
+        return mView;
     }
 
     protected void requestPermission(String permissionType, int requestCode){
@@ -159,41 +161,63 @@ public class PeriodicJourneyPathFragment extends Fragment {
         switch (requestCode) {
             case LOCATION_REQUEST_CODE: {
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    //Toast.makeText(getContext(), "Unable to show location - permission required", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(), "Unable to show location - permission required", Toast.LENGTH_LONG).show();
                     Toast.makeText(getContext(), "Nepavyko rasti lokacijos - reikia leidimo", Toast.LENGTH_LONG).show();
                 }
             }
         }
     }
 
-    private boolean checkAddresses(String source, String destination) {
-        if (TextUtils.isEmpty(source)) {
-//            Toast.makeText(getActivity().getApplicationContext(), "Please enter source address!", Toast.LENGTH_LONG).show();
-            Toast.makeText(getActivity().getApplicationContext(), "Įveskite pradžios adresą!", Toast.LENGTH_LONG).show();
-            return false;
+    private void showCurrentLocation() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+
+        Location location = null;
+
+        try {
+            location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        } catch (SecurityException e) {
+            e.printStackTrace();
         }
 
-        if (TextUtils.isEmpty(destination)) {
-//            Toast.makeText(getActivity().getApplicationContext(), "Please enter destination address!", Toast.LENGTH_LONG).show();
-            Toast.makeText(getActivity().getApplicationContext(), "Įveskite tikslo adresą!", Toast.LENGTH_LONG).show();
-            return false;
+        if (location != null)
+        {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
+                    .zoom(17)                   // Sets the zoom
+                    .bearing(90)                // Sets the orientation of the camera to east
+                    .tilt(40)                   // Sets the tilt of the camera to 30 degrees
+                    .build();                   // Creates a CameraPosition from the builder
+            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
-
-        // TODO: 2017-05-21 additional validation of addresses
-
-        return true;
     }
 
-    private void saveJourney(PeriodicJourney journey) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private void validateInput(){
+        String sourceInput = source.getText().toString().trim();
+        String destinationInput = destination.getText().toString().trim();
+        String hoursInput = hours.getText().toString().trim();
+        String minutesInput = mins.getText().toString().trim();
 
-        if (user != null) {
-            String id = user.getUid();
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users").child(id).child("periodic");
-
-            String key = myRef.push().getKey();
-            myRef.child(key).setValue(journey);
+        if (TextUtils.isEmpty(destinationInput)) {
+            Toast.makeText(mView.getContext(), "Įveskite kelionės tikslo adresą!", Toast.LENGTH_LONG).show();
+            return;
         }
+
+        if (!gps.isChecked() && TextUtils.isEmpty(sourceInput)) {
+            Toast.makeText(mView.getContext(), "Įveskite kelionės pradžios adresą!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(hoursInput) || TextUtils.isEmpty(minutesInput)) {
+            Toast.makeText(mView.getContext(), "Įveskite kelionės laiką!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, new FreeDriversFragment());
+        fragmentTransaction.commit();
     }
 
     @Override

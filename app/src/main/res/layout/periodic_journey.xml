@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:text="Kęstučio g. 20A"
             android:textColor="@color/secondary_text"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/time"
@@ -29,7 +29,7 @@
             android:layout_marginTop="5dp"
             android:text="07:20"
             android:textColor="@color/secondary_text"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/days"
@@ -44,14 +44,13 @@
 
     <ImageView
         android:id="@+id/active"
-        android:layout_width="0dp"
+        android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_gravity="center"
         android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
         android:layout_weight="1"
+        android:gravity="center"
         android:scaleType="fitEnd"
-        app:srcCompat="@drawable/ok_512"
-        android:gravity="center"/>
+        app:srcCompat="@drawable/ok_512" />
 
 </LinearLayout>

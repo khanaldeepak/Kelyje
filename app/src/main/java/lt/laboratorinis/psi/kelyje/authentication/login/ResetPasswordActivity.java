@@ -43,7 +43,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         String emailAddress = email.getText().toString().trim();
 
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Checking. Please wait...");
+//        dialog.setMessage("Checking. Please wait...");
+        dialog.setMessage("Tikrinama...");
         dialog.show();
 
         firebaseAuth.sendPasswordResetEmail(emailAddress)
@@ -53,9 +54,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         dialog.dismiss();
 
                         if (task.isSuccessful()) {
-                            Toast.makeText(ResetPasswordActivity.this, "Email sent!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(ResetPasswordActivity.this, "Email sent!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ResetPasswordActivity.this, "Laiškas išsiųstas!", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(ResetPasswordActivity.this, "User not found!", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(ResetPasswordActivity.this, "User not found!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ResetPasswordActivity.this, "Vartotojas nerastas!", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

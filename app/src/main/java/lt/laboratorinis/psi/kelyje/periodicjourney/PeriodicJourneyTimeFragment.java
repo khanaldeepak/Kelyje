@@ -20,7 +20,7 @@ import lt.laboratorinis.psi.kelyje.R;
 
 public class PeriodicJourneyTimeFragment extends Fragment {
 
-    private Button mondey, tuesday, wednesday, thursday, friday, saturday, sunday;
+    private Button monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     private TimePicker timePicker;
     private CheckBox traditional, selfDriving, packet;
     private Button addPeriodicJourney;
@@ -40,7 +40,7 @@ public class PeriodicJourneyTimeFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_periodic_journey_time, container, false);
 
-        mondey = (Button) mView.findViewById(R.id.btnMonday);
+        monday = (Button) mView.findViewById(R.id.btnMonday);
         tuesday = (Button) mView.findViewById(R.id.btnTuesday);
         wednesday = (Button) mView.findViewById(R.id.btnWednesday);
         thursday = (Button) mView.findViewById(R.id.btnThursday);
@@ -87,7 +87,7 @@ public class PeriodicJourneyTimeFragment extends Fragment {
             }
         };
 
-        mondey.setOnClickListener(listener);
+        monday.setOnClickListener(listener);
         tuesday.setOnClickListener(listener);
         wednesday.setOnClickListener(listener);
         thursday.setOnClickListener(listener);
@@ -156,7 +156,8 @@ public class PeriodicJourneyTimeFragment extends Fragment {
         }
 
         if (!atLeastOneActive) {
-            Toast.makeText(getActivity().getApplicationContext(), "Please select at least one day!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity().getApplicationContext(), "Please select at least one day!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Pasirinkite bent vieną savaitės dieną!", Toast.LENGTH_LONG).show();
             return;
         }
 

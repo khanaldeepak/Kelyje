@@ -81,47 +81,56 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         boolean driverOption = driver.isChecked();
 
         if (TextUtils.isEmpty(emailInput)) {
-            Toast.makeText(this, "Please enter email!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter email!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite el. paštą!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (!isEmailValid(emailInput)) {
-            Toast.makeText(this, "Please enter valid email!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter valid email!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite tikrą el. paštą!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(nameInput)) {
-            Toast.makeText(this, "Please enter name!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter name!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite vardą!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(surnameInput)) {
-            Toast.makeText(this, "Please enter surname!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter surname!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite pavardę!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(phoneInput)) {
-            Toast.makeText(this, "Please enter phone!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter phone!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite tel. numerį!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(passwordInput)) {
-            Toast.makeText(this, "Please enter password!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter password!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite slaptažodį!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(password2Input)) {
-            Toast.makeText(this, "Please enter password again!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter password again!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Pakartokite slaptažodį!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (passwordInput.length() < 6) {
-            Toast.makeText(this, "Password should consist of at least 6 characters", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Password should consist of at least 6 characters", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Slaptažodį turi sudaryti bent 6 simboliai!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (!passwordInput.equals(password2Input)) {
-            Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Slaptažodžiai nesutampa!", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -138,7 +147,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         } else {
             //finish registration
             final ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setMessage("Registering. Please Wait...");
+//            dialog.setMessage("Registering. Please Wait...");
+            dialog.setMessage("Registruojama...");
             dialog.show();
 
             firebaseAuth.createUserWithEmailAndPassword(emailInput, passwordInput)
@@ -148,7 +158,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dialog.dismiss();
 
                             if (task.isSuccessful()) {
-                                Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(RegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegistrationActivity.this, "Registracija sėkminga!", Toast.LENGTH_LONG).show();
 
                                 FirebaseUser user = task.getResult().getUser();
                                 String id = user.getUid();
@@ -159,7 +170,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
                                 startActivity(intent);
                             } else {
-                                Toast.makeText(RegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
+                                //Toast.makeText(RegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegistrationActivity.this, "Registracija nepavyko!", Toast.LENGTH_LONG).show();
                             }
 
                         }

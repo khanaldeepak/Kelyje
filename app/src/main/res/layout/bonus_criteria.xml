@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_light"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
         android:text="Bonuso skyrimo kriterijai"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textColor="@color/primary_text"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -135,11 +137,18 @@
     </LinearLayout>
 
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:text="Patvirtinti" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/accent"
+        android:onClick="onClick"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="Patvirtinti"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package lt.laboratorinis.psi.kelyje;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,10 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,14 +30,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import lt.laboratorinis.psi.kelyje.authentication.login.LoginActivity;
-import lt.laboratorinis.psi.kelyje.fragments.HelpFragment;
-import lt.laboratorinis.psi.kelyje.fragments.JourneyFragment;
-import lt.laboratorinis.psi.kelyje.fragments.JourneysHistoryFragment;
+import lt.laboratorinis.psi.kelyje.help.HelpFragment;
+import lt.laboratorinis.psi.kelyje.journey.JourneyFragment;
+import lt.laboratorinis.psi.kelyje.journeyshistory.JourneysHistoryFragment;
 import lt.laboratorinis.psi.kelyje.payments.PaymentsFragment;
 import lt.laboratorinis.psi.kelyje.periodicjourney.PeriodicJourneyFragment;
-import lt.laboratorinis.psi.kelyje.fragments.ProfileFragment;
+import lt.laboratorinis.psi.kelyje.profile.ProfileFragment;
 import lt.laboratorinis.psi.kelyje.users.Passenger;
 
 public class MainActivity extends AppCompatActivity
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     private TextView email;
     private TextView phone;
     private TextView username;
+    private ImageView profileImage;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -80,9 +88,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        ProfileFragment profileFragment = new ProfileFragment();
+        JourneyFragment journeyFragment = new JourneyFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, profileFragment);
+        fragmentTransaction.replace(R.id.fragmentContainer, journeyFragment);
         fragmentTransaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,33 +107,59 @@ public class MainActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
 
+        email = (TextView) header.findViewById(R.id.email);
+        username = (TextView) header.findViewById(R.id.username);
+        phone = (TextView) header.findViewById(R.id.phone);
+        profileImage = (ImageView) header.findViewById(R.id.image);
+
         //getting current user
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        email = (TextView) header.findViewById(R.id.email);
-        email.setText(user.getEmail());
-        username = (TextView) header.findViewById(R.id.username);
-        username.setText(user.getDisplayName());
-        phone = (TextView) header.findViewById(R.id.phone);
+        if (user != null) {
+            email.setText(user.getEmail());
+            username.setText(user.getDisplayName());
 
-        myRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Passenger passenger = dataSnapshot.getValue(Passenger.class);
+            // try to load image from firebase storage
+            StorageReference storage = FirebaseStorage.getInstance().getReference();
+            StorageReference loadImage = storage.child("ProfileImages").child(user.getUid());
 
-                        if (user.getDisplayName() == null) {
-                            username.setText(passenger.getName() + " " + passenger.getSurname());
-                        }
-                        Toast.makeText(MainActivity.this, "Welcome, " + username.getText().toString().trim(), Toast.LENGTH_LONG).show();
+            loadImage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(MainActivity.this).load(uri.toString()).into(profileImage);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // loading from storage failed - load social networks photo
+                    Uri photoUri = user.getPhotoUrl();
+                    if (photoUri != null) {
+                        Glide.with(MainActivity.this).load(photoUri).into(profileImage);
+                    }
+                }
+            });
 
-                        phone.setText(passenger.getPhone());
+            myRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Passenger passenger = dataSnapshot.getValue(Passenger.class);
+
+                    if (user.getDisplayName() == null) {
+                        username.setText(passenger.getName() + " " + passenger.getSurname());
                     }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+//                    Toast.makeText(MainActivity.this, "Welcome, " + username.getText().toString().trim(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Sveiki, " + username.getText().toString().trim(), Toast.LENGTH_LONG).show();
 
-                    }
-                });
+                    phone.setText(passenger.getPhone());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -154,6 +188,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Nustatymai kol kas neveikia!", Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -176,12 +211,21 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_help) {
             loadFragment(new HelpFragment());
         } else if (id == R.id.nav_profile) {
-            loadFragment(new ProfileFragment());
+            ProfileFragment fragment = new ProfileFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("nameSurname", username.getText().toString().trim());
+            bundle.putString("email", email.getText().toString().trim());
+            bundle.putString("phone", phone.getText().toString().trim());
+
+            fragment.setArguments(bundle);
+            loadFragment(fragment);
         } else if (id == R.id.nav_logout) {
             firebaseAuth.signOut();
             LoginManager.getInstance().logOut(); // Facebook sign out
 
-            Toast.makeText(this, "Goodbye!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Goodbye!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Sėkmingai atsijungėte!", Toast.LENGTH_LONG).show();
 
             finish();
 
@@ -191,6 +235,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

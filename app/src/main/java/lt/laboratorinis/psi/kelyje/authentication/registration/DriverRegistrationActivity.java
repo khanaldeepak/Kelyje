@@ -65,24 +65,28 @@ public class DriverRegistrationActivity extends AppCompatActivity {
         final String yearsInput = years.getText().toString().trim();
 
         if (TextUtils.isEmpty(markInput)) {
-            Toast.makeText(this, "Please enter car's mark!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter car's mark!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite automobilio markę!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(plateInput)) {
-            Toast.makeText(this, "Please enter car plate's number!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter car plate's number!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite automobilio numerius!", Toast.LENGTH_LONG).show();
             return;
         }
 
         if (TextUtils.isEmpty(yearsInput)) {
-            Toast.makeText(this, "Please enter car's years!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Please enter car's years!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite automobilio metus!", Toast.LENGTH_LONG).show();
             return;
         }
 
         int years = Integer.parseInt(yearsInput);
         int currentYears = Calendar.getInstance().get(Calendar.YEAR);
         if (years < currentYears - 50  || years > currentYears) {
-            Toast.makeText(this, "Please enter valid years! (" + (currentYears - 50) + " - " + currentYears + ")", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Please enter valid years! (" + (currentYears - 50) + " - " + currentYears + ")", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Įveskite tinkamus metus! (" + (currentYears - 50) + " - " + currentYears + ")", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -98,7 +102,8 @@ public class DriverRegistrationActivity extends AppCompatActivity {
             if (!sn) {
                 // traditional driver (username & password) registration
                 final ProgressDialog dialog = new ProgressDialog(this);
-                dialog.setMessage("Registering. Please Wait...");
+                //dialog.setMessage("Registering. Please Wait...");
+                dialog.setMessage("Registruojama...");
                 dialog.show();
 
                 firebaseAuth.createUserWithEmailAndPassword(emailInput, passwordInput)
@@ -108,7 +113,8 @@ public class DriverRegistrationActivity extends AppCompatActivity {
                                 dialog.dismiss();
 
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(DriverRegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(DriverRegistrationActivity.this, "Successfully registered!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(DriverRegistrationActivity.this, "Registracija sėkminga!", Toast.LENGTH_LONG).show();
 
                                     FirebaseUser user = task.getResult().getUser();
                                     String id = user.getUid();
@@ -119,7 +125,8 @@ public class DriverRegistrationActivity extends AppCompatActivity {
                                     Intent intent = new Intent(DriverRegistrationActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(DriverRegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(DriverRegistrationActivity.this, "Registration Error!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(DriverRegistrationActivity.this, "Registracija nepavyko!", Toast.LENGTH_LONG).show();
                                 }
 
                             }
