@@ -65,7 +65,7 @@ public class PeriodicJourneysAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder holder = new Holder();
         View rowView;
-        rowView = inflater.inflate(R.layout.periodic_journey, null);
+        rowView = inflater.inflate(R.layout.item_periodic_journey, null);
 
         holder.path = (TextView) rowView.findViewById(R.id.path);
         holder.time = (TextView) rowView.findViewById(R.id.time);

@@ -64,7 +64,7 @@ public class SocialNetworksRegistrationActivity extends AppCompatActivity implem
         }
 
         if (driverOption) {
-            //add driver details
+            //add item_driver details
             Intent intent = new Intent(SocialNetworksRegistrationActivity.this, DriverRegistrationActivity.class);
             intent.putExtra("phone", phoneInput);
             intent.putExtra("socialNetwork", true);

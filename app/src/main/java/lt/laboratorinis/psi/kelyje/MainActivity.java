@@ -144,8 +144,11 @@ public class MainActivity extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Passenger passenger = dataSnapshot.getValue(Passenger.class);
 
-                    if (user.getDisplayName() == null) {
-                        username.setText(passenger.getName() + " " + passenger.getSurname());
+                    // overrides current username (if user is logged-in via social networks
+                    String name = passenger.getName();
+                    String surname = passenger.getSurname();
+                    if (name != null && surname != null) {
+                        username.setText(name + " " + surname);
                     }
 
 //                    Toast.makeText(MainActivity.this, "Welcome, " + username.getText().toString().trim(), Toast.LENGTH_LONG).show();

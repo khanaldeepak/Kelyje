@@ -3,6 +3,7 @@ package lt.laboratorinis.psi.kelyje.journey;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -36,6 +37,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import lt.laboratorinis.psi.kelyje.R;
 import lt.laboratorinis.psi.kelyje.payments.DefaultPaymentFragment;
+
+import static android.R.color.white;
 
 public class JourneyFragment extends Fragment {
 
@@ -81,6 +84,12 @@ public class JourneyFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 source.setEnabled(!b);
+
+                if (b) {
+                    source.setBackgroundColor(Color.TRANSPARENT);
+                } else {
+                    source.setBackgroundColor(ContextCompat.getColor(mView.getContext(), android.R.color.white));
+                }
             }
         });
 

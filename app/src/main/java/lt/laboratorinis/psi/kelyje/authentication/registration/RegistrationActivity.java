@@ -135,7 +135,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (driverOption) {
-            //add driver details
+            //add item_driver details
             Intent intent = new Intent(RegistrationActivity.this, DriverRegistrationActivity.class);
             intent.putExtra("email", emailInput);
             intent.putExtra("name", nameInput);

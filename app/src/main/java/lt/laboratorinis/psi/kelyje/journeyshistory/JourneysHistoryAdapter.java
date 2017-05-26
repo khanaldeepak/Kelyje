@@ -1,5 +1,6 @@
 package lt.laboratorinis.psi.kelyje.journeyshistory;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,7 @@ public class JourneysHistoryAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Holder holder = new Holder();
         View rowView;
-        rowView = inflater.inflate(R.layout.old_journey, null);
+        rowView = inflater.inflate(R.layout.item_old_journey, null);
 
         holder.dateTime = (TextView) rowView.findViewById(R.id.dateAndTime);
         holder.driverNameSurname = (TextView) rowView.findViewById(R.id.driverNameSurname);
@@ -71,7 +72,7 @@ public class JourneysHistoryAdapter extends BaseAdapter {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // // TODO: 2017-05-22 what happens when user clicks on specific journey?
+                // // TODO: 2017-05-22 what happens when user clicks on a specific journey?
             }
         });
 

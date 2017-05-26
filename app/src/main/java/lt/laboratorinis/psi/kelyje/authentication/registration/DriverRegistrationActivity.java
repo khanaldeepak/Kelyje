@@ -100,7 +100,7 @@ public class DriverRegistrationActivity extends AppCompatActivity {
             boolean sn = bundle.getBoolean("socialNetwork");
 
             if (!sn) {
-                // traditional driver (username & password) registration
+                // traditional item_driver (username & password) registration
                 final ProgressDialog dialog = new ProgressDialog(this);
                 //dialog.setMessage("Registering. Please Wait...");
                 dialog.setMessage("Registruojama...");
@@ -132,7 +132,7 @@ public class DriverRegistrationActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                // social networks driver registration
+                // social networks item_driver registration
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     String id = user.getUid();
