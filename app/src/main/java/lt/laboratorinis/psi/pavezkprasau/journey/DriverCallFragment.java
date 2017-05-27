@@ -24,6 +24,7 @@ public class DriverCallFragment extends Fragment {
     private Button cancel;
 
     private String driverID;
+    private boolean firstDriverCall = true;
 
     private View mView;
 
@@ -78,15 +79,21 @@ public class DriverCallFragment extends Fragment {
                 if (dataSnapshot.getValue() != null) {
                     boolean confirmed = dataSnapshot.getValue(Boolean.class);
 
-                    if (confirmed) {
-                        Toast.makeText(mView.getContext(), "Vairuotojas patvirtino iškvietimą!", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(mView.getContext(), "Vairuotojas atšaukė iškvietimą!", Toast.LENGTH_LONG).show();
+                    if (!firstDriverCall) {
+                        if (confirmed) {
+                            Toast.makeText(mView.getContext(), "Vairuotojas patvirtino iškvietimą!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(mView.getContext(), "Vairuotojas atšaukė iškvietimą!", Toast.LENGTH_LONG).show();
+                        }
+
+                        if (getActivity() != null) {
+                            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.fragmentContainer, new JourneyFragment());
+                            fragmentTransaction.commit();
+                        }
                     }
 
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentContainer, new JourneyFragment());
-                    fragmentTransaction.commit();
+                    firstDriverCall = false;
                 }
             }
 
@@ -95,5 +102,15 @@ public class DriverCallFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        if (driverID != null) {
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users").child(driverID);
+            myRef.child("busy").setValue(false);
+        }
     }
 }

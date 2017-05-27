@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import lt.laboratorinis.psi.pavezkprasau.R;
 
@@ -44,13 +45,13 @@ public class PaymentsFragment extends Fragment{
 
                 switch (id) {
                     case R.id.imageWallet:
-                        //todo: if not active - load add fragment, else - dialog box
+                        // ?
                         break;
                     case R.id.imageCard:
-                        //todo
+                        Toast.makeText(mView.getContext(), "Banko kortelė neįgalinta!", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.imagePaypal:
-                        //todo
+                        Toast.makeText(mView.getContext(), "Paypal sąskaita neįgalinta!", Toast.LENGTH_LONG).show();
                         break;
                     case R.id.btnChooseDefault:
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();

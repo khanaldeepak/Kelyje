@@ -27,6 +27,7 @@
         android:paddingStart="20dp">
 
         <LinearLayout
+            android:id="@+id/layoutWallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -53,6 +54,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -79,6 +81,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutPaypal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/darker_gray"
@@ -106,7 +109,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnChooseDefault"
+        android:id="@+id/btnConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

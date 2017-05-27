@@ -65,6 +65,7 @@ public class JourneysHistoryAdapter extends BaseAdapter {
 
         holder.dateTime.setText(journey.getDate() + " " + journey.getTime());
         holder.driverNameSurname.setText(journey.getDriver().getName() + " " + journey.getDriver().getSurname());
+        holder.price.setText(journey.getPrice());
 
         holder.driverImage.setImageResource(R.drawable.user_96_grey); //temporary image
 

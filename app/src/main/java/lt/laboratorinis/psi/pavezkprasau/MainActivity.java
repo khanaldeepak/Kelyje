@@ -28,8 +28,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 import lt.laboratorinis.psi.pavezkprasau.authentication.login.LoginActivity;
 import lt.laboratorinis.psi.pavezkprasau.help.HelpFragment;
@@ -134,6 +139,40 @@ public class MainActivity extends AppCompatActivity
                 String[] array = user.getDisplayName().split("\\s+");
                 myRef.child(user.getUid()).child("name").setValue(array[0]);
                 myRef.child(user.getUid()).child("surname").setValue(array[1]);
+
+                // uppload social media image
+                /*StorageReference storage = FirebaseStorage.getInstance().getReference();
+                final StorageReference loadImage = storage.child("ProfileImages").child(user.getUid());
+
+                loadImage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //image exists
+                        Log.d("zxc", "image exists: " + uri);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // image does not exist in storage - uppload social networks photo
+                        Log.d("zxc","image does not exist");
+                        Uri photoUri = user.getPhotoUrl();
+                        Log.d("zxc","" + photoUri);
+                        if (photoUri != null) {
+                            Uri uploadUri = Uri.fromFile(new File(photoUri.toString()));
+                            loadImage.putFile(uploadUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                               @Override
+                               public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                   if (task.isSuccessful()) {
+                                       Log.d("zxc","upploaded");
+                                   } else {
+                                       Log.d("zxc","error upploading");
+                                       Log.d("zxc",task.getException().toString());
+                                   }
+                               }
+                            });
+                        }
+                    }
+                });*/
             }
 
             loadImage();
@@ -192,7 +231,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            int count = getFragmentManager().getBackStackEntryCount();
+
+            if (count == 0) {
+                super.onBackPressed();
+                //additional code
+            } else {
+                getFragmentManager().popBackStack();
+            }
         }
     }
 
@@ -302,6 +348,7 @@ public class MainActivity extends AppCompatActivity
         loadImage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                //load from storage
                 Glide.with(MainActivity.this).load(uri.toString()).into(profileImage);
             }
         }).addOnFailureListener(new OnFailureListener() {

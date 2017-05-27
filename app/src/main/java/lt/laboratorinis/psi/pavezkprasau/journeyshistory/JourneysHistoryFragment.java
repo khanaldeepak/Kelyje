@@ -40,9 +40,6 @@ public class JourneysHistoryFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        Driver driver = new Driver("Tomas", "Petronis", "86123456", "Audi A4", "ABC 1230", "2001");
-        Journey journey = new Journey(driver, "4.99", "2017 05 22", "17:11");
-
         if (user != null) {
             String id = user.getUid();
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("users").child(id).child("history");
@@ -57,6 +54,18 @@ public class JourneysHistoryFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             journeys = new ArrayList<>();
+
+                            Driver driver = new Driver("Tomas", "Petronis", "86123456", "BMW x5", "ABC 123", "2012");
+                            Journey demoJourney = new Journey(driver, "4.99", "2017 05 22", "17:11");
+                            journeys.add(demoJourney);
+
+                            driver = new Driver("Hary", "Doggo", "86987654", "Audi A4", "ASD 987", "2007");
+                            demoJourney = new Journey(driver, "6.00", "2017 05 24", "05:55");
+                            journeys.add(demoJourney);
+
+                            driver = new Driver("Tomas", "Petronis", "86123456", "BMW x5", "ABC 123", "2012");
+                            demoJourney = new Journey(driver, "5.30", "2017 05 27", "08:21");
+                            journeys.add(demoJourney);
 
                             for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                                 Journey journey = dsp.getValue(Journey.class);
