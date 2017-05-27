@@ -1,188 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light"
-    android:orientation="vertical"
-    tools:context="lt.laboratorinis.psi.kelyje.journey.JourneyFragment">
-
-    <EditText
-        android:id="@+id/editDestination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:hint="Kelionės tikslas"
-        android:inputType="textPostalAddress"
-        android:paddingBottom="10dp"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingTop="10dp"
-        android:textColorHint="@color/secondary_text" />
-
-    <EditText
-        android:id="@+id/editSource"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:hint="Iškvietimo vieta"
-        android:inputType="textPostalAddress"
-        android:paddingBottom="10dp"
-        android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:paddingTop="10dp"
-        android:textColorHint="@color/secondary_text"
-        android:enabled="false"/>
-
-    <CheckBox
-        android:id="@+id/radioGPS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:checked="true"
-        android:text="Naudoti GPS nustatyti iškvietimo vietai"
-        android:textColor="@color/primary_text" />
+    tools:context="lt.laboratorinis.psi.pavezkprasau.journey.JourneyFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="Kelionės pradžios laikas: "
-            android:textColor="@color/primary_text"
-            android:textSize="16sp" />
-
+        android:orientation="vertical">
         <EditText
-            android:id="@+id/editHours"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:ems="2"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textColor="@color/secondary_text"
-            android:textColorHint="@color/secondary_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:paddingStart="3dp"
-            android:text="val"
-            android:textColor="@color/primary_text"
-            android:maxLines="1"/>
-
-        <EditText
-            android:id="@+id/editMins"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:ems="2"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textColor="@color/secondary_text"
-            android:textColorHint="@color/secondary_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp"
-            android:text="min"
-            android:textColor="@color/primary_text"
-            android:maxLines="1"/>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/accent"
-        android:onClick="onClick"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:text="Pradėti kelionę"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.Toolbar
+            android:id="@+id/editDestination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme">
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:ems="10"
+            android:hint="Kelionės tikslas"
+            android:inputType="textPostalAddress"
+            android:paddingBottom="10dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:textColorHint="@color/secondary_text" />
 
-            <LinearLayout
+        <EditText
+            android:id="@+id/editSource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:hint="Iškvietimo vieta"
+            android:inputType="textPostalAddress"
+            android:paddingBottom="10dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:textColorHint="@color/secondary_text"
+            android:enabled="false"/>
+
+        <CheckBox
+            android:id="@+id/radioGPS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:text="Naudoti GPS nustatyti iškvietimo vietai"
+            android:textColor="@color/primary_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Pradžios laikas: "
+                android:textColor="@color/primary_text"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:ems="2"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="@color/secondary_text"
+                android:textColorHint="@color/secondary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:maxLines="1"
+                android:paddingStart="3dp"
+                android:text="val"
+                android:textColor="@color/primary_text" />
+
+            <EditText
+                android:id="@+id/editMins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:ems="2"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="@color/secondary_text"
+                android:textColorHint="@color/secondary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingEnd="3dp"
+                android:paddingStart="3dp"
+                android:text="min"
+                android:textColor="@color/primary_text" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/accent"
+            android:onClick="onClick"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:text="Pradėti kelionę"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme">
 
-                <CheckBox
-                    android:id="@+id/checkTraditional"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="Tradicinis"
-                    android:textColor="@android:color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <CheckBox
-                    android:id="@+id/checkSelfDriving"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="Autonominis"
-                    android:textColor="@android:color/white" />
+                    <CheckBox
+                        android:id="@+id/checkTraditional"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="Tradicinis"
+                        android:textColor="@android:color/white" />
 
-                <CheckBox
-                    android:id="@+id/checkPacket"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="false"
-                    android:text="Siunta"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
+                    <CheckBox
+                        android:id="@+id/checkSelfDriving"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="Autonominis"
+                        android:textColor="@android:color/white" />
 
-    </RelativeLayout>
+                    <CheckBox
+                        android:id="@+id/checkPacket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false"
+                        android:text="Siunta"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
 
-</LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>
