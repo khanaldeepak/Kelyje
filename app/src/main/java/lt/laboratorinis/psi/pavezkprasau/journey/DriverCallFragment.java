@@ -72,7 +72,7 @@ public class DriverCallFragment extends Fragment {
         return mView;
     }
 
-    private void listenForConfirmation(DatabaseReference myRef){
+    private void listenForConfirmation(final DatabaseReference myRef){
         myRef.child("confirmed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,8 +82,10 @@ public class DriverCallFragment extends Fragment {
                     if (!firstDriverCall) {
                         if (confirmed) {
                             Toast.makeText(mView.getContext(), "Vairuotojas patvirtino iškvietimą!", Toast.LENGTH_LONG).show();
+                            myRef.child("confirmed").removeValue();
                         } else {
                             Toast.makeText(mView.getContext(), "Vairuotojas atšaukė iškvietimą!", Toast.LENGTH_LONG).show();
+                            myRef.child("confirmed").removeValue();
                         }
 
                         if (getActivity() != null) {
@@ -92,9 +94,9 @@ public class DriverCallFragment extends Fragment {
                             fragmentTransaction.commit();
                         }
                     }
-
-                    firstDriverCall = false;
                 }
+
+                firstDriverCall = false;
             }
 
             @Override

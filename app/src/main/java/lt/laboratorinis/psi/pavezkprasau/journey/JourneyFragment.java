@@ -39,6 +39,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
+
 import lt.laboratorinis.psi.pavezkprasau.MainActivity;
 import lt.laboratorinis.psi.pavezkprasau.R;
 import lt.laboratorinis.psi.pavezkprasau.profile.ProfileFragment;
@@ -59,7 +61,6 @@ public class JourneyFragment extends Fragment {
     private GoogleMap googleMap;
 
     private static final int LOCATION_REQUEST_CODE = 101;
-    private String TAG = "MapDemo";
 
     private View mView;
 
@@ -82,6 +83,13 @@ public class JourneyFragment extends Fragment {
         traditional = (CheckBox) mView.findViewById(R.id.checkTraditional);
         selfDriving = (CheckBox) mView.findViewById(R.id.checkSelfDriving);
         packet = (CheckBox) mView.findViewById(R.id.checkPacket);
+
+        Calendar c = Calendar.getInstance();
+        int currentHour = c.get(Calendar.HOUR);
+        int currentMinute = c.get(Calendar.MINUTE);
+
+        hours.setText(String.valueOf(currentHour));
+        mins.setText(String.valueOf(currentMinute));
 
         gps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -193,6 +201,7 @@ public class JourneyFragment extends Fragment {
             e.printStackTrace();
         }
 
+
         if (location != null && googleMap != null)
         {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
@@ -237,6 +246,11 @@ public class JourneyFragment extends Fragment {
         int minutesNumber = Integer.parseInt(minutesInput);
         if (minutesNumber < 0 || minutesNumber > 59) {
             Toast.makeText(mView.getContext(), "Klaidingos minutės! Turi būti [0 - 59]", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!traditional.isChecked()) {
+            Toast.makeText(mView.getContext(), "Pasirinkite tradicinį automobilio tipą! (kiti kol kas neįgalinti)", Toast.LENGTH_LONG).show();
             return;
         }
 

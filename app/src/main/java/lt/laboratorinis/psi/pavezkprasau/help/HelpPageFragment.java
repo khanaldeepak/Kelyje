@@ -10,7 +10,6 @@ import lt.laboratorinis.psi.pavezkprasau.R;
 
 public class HelpPageFragment extends Fragment{
 
-
     private View mView;
 
     public HelpPageFragment() {
